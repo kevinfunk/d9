@@ -1,0 +1,92 @@
+{
+    "name": "drupal/legacy-project",
+    "type": "drupal-profile",
+    "description": "Project template for Drupal 9 projects with composer following drupal/drupal layout",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/mysql56": "^1.0",
+        "cweagans/composer-patches": "^1.6.0"
+    },
+    "require-dev": {
+        "drupal/core-composer-scaffold": "^9.0.0",
+        "drupal/core-dev": "^9",
+        "drush/drush": "^10",
+        "oomphinc/composer-installers-extender": "^1.1 || ^2"
+    },
+    "config": {
+        "preferred-install": {
+            "drupal/core": "dist"
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "allowed-packages": [
+                "drupal/core"
+            ],
+            "file-mapping": {
+                "[project-root]/.editorconfig": false,
+                "[project-root]/.gitattributes": false,
+                "[web-root]/.csslintrc": false,
+                "[web-root]/INSTALL.txt": false,
+                "[web-root]/example.gitignore": false,
+                "[web-root]/modules/README.txt": false,
+                "[web-root]/profiles/README.txt": false,
+                "[web-root]/robots.txt": false,
+                "[web-root]/sites/README.txt": false,
+                "[web-root]/themes/README.txt": false,
+                "[web-root]/web.config": false
+            },
+            "locations": {
+                "web-root": "./docroot"
+            }
+        },
+        "enable-patching": true,
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ]
+        },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": {
+            "drupal/core": {
+                "Allow exposed-form-in-block for block displays | http://drupal.org/node/2681947":
+                "https://www.drupal.org/files/issues/2019-09-30/2681947-33.patch"
+            }
+        }
+    },
+    "autoload": {},
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "assets": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
