@@ -8,7 +8,7 @@
         "cweagans/composer-patches": "^1.6.0"
     },
     "require-dev": {
-        "drupal/core-composer-scaffold": "^9.0.0",
+        "drupal/core-composer-scaffold": "^9",
         "drupal/core-dev": "^9",
         "drush/drush": "^10",
         "oomphinc/composer-installers-extender": "^1.1 || ^2"
@@ -18,7 +18,13 @@
             "drupal/core": "dist"
         },
         "process-timeout": 0,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "composer/installers": true,
+            "oomphinc/composer-installers-extender": true
+        }
     },
     "extra": {
         "drupal-scaffold": {
@@ -69,12 +75,7 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches": {
-            "drupal/core": {
-                "Allow exposed-form-in-block for block displays | http://drupal.org/node/2681947":
-                "https://www.drupal.org/files/issues/2019-09-30/2681947-33.patch"
-            }
-        }
+        "patches": {}
     },
     "autoload": {},
     "repositories": {
@@ -88,5 +89,17 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+        "scripts": {
+        "post-install-cmd": [
+            "composer run-script post-update-cmd"
+        ],
+        "post-update-cmd": [
+            "composer run-script remove-git-submodules"
+        ],
+        "nuke": [
+            "rm -rf docroot vendor composer.lock"
+        ],
+        "remove-git-submodules": "find . -mindepth 2 -type d -name .git | xargs rm -rf"
+    }
 }
